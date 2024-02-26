@@ -1,4 +1,4 @@
-const bookRoute = require('./book.route');
+const bookRoute = require('./news.route');
 
 const routes = (app) => {
    app.use('/books', bookRoute);

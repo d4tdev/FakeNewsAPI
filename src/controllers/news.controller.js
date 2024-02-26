@@ -21,7 +21,7 @@ function readXML(callback) {
 function writeXML(data, callback) {
    const builder = new xml2js.Builder();
    const xml = builder.buildObject(data);
-   fs.writeFile('../../data.xml', xml, err => {
+   fs.writeFile('./data.xml', xml, err => {
       if (err) {
          callback(err);
          return;
@@ -33,22 +33,20 @@ function writeXML(data, callback) {
 class BookController {
    // Thêm một mục mới vào file XML
    create = async (req, res) => {
-      const { id, artist, title, timeCreate, content } = req.body;
-      if (!id || !artist || !title || !timeCreate || !content) {
-         res.status(400).send('Bad Request');
-         return;
-      }
+      const { id, author, title, createdAt, content, image } = req.body;
+      if (!id || !author || !title || !createdAt || !content || !image)
+         return res.status(400).json({ error: 'Bad Request' });
 
       // Đọc dữ liệu từ file XML
-      fs.readFile('../../data.xml', 'utf-8', (err, data) => {
+      fs.readFile('./data.xml', 'utf-8', (err, data) => {
          if (err) {
-            res.status(500).send('Internal Server Error', err);
+            res.status(500).json({ error: 'Internal Server Error', err });
             return;
          }
 
          xml2js.parseString(data, (err, result) => {
             if (err) {
-               res.status(500).send('Internal Server Error', err);
+               res.status(500).json({ error: 'Internal Server Error', err });
                return;
             }
 
@@ -64,10 +62,11 @@ class BookController {
 
             const newItem = {
                id: id,
-               artist: artist,
+               author,
                title: title,
-               timeCreate: timeCreate,
+               createdAt,
                content: content,
+               image,
             };
 
             result.posts.post.push(newItem);
@@ -75,9 +74,9 @@ class BookController {
             const builder = new xml2js.Builder();
             const xml = builder.buildObject(result);
 
-            fs.writeFile('../../data.xml', xml, err => {
+            fs.writeFile('./data.xml', xml, err => {
                if (err) {
-                  res.status(500).json({ error: 'Internal Server Error' });
+                  res.status(500).json({ error: 'Internal Server Error' + err });
                   return;
                }
                res.json({
@@ -104,6 +103,7 @@ class BookController {
                title: post.title[0],
                createdAt: post.createdAt[0],
                content: post.content[0],
+               image: post.image[0],
             };
          });
 
