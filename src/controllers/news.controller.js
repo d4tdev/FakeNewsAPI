@@ -98,7 +98,6 @@ class NewsController {
       readXML((err, data) => {
          if (err) return res.status(500).json({ err: 'Internal Server Error' + err });
 
-         console.log('', JSON.stringify(data));
          const transformedData = transformData(data);
 
          const { id } = req.params;
@@ -175,11 +174,9 @@ class NewsController {
       readXML((err, data) => {
          if (err) return res.status(500).json({ err: 'Internal Server Error' + err });
 
-         console.log('', JSON.stringify(data));
          const transformedData = transformData(data);
 
          const { title } = req.query;
-         console.log(title)
          if (!title) return res.status(400).json({ error: 'Missing required fields' });
          const item = transformedData.find(item => item.title.includes(title));
          if (!item) return res.status(404).json({ error: 'Not Found' });
