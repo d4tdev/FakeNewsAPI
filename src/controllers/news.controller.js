@@ -171,6 +171,21 @@ class NewsController {
          });
       });
    };
+   getNews = async (req, res) => {
+      readXML((err, data) => {
+         if (err) return res.status(500).json({ err: 'Internal Server Error' + err });
+
+         console.log('', JSON.stringify(data));
+         const transformedData = transformData(data);
+
+         const { title } = req.query;
+         console.log(title);
+         if (!title) return res.status(400).json({ error: 'Missing required fields' });
+         const item = transformedData.find(item => item.title == title);
+         if (!item) return res.status(404).json({ error: 'Not Found' });
+         return res.status(200).json(item);
+      });
+   }
 }
 
 const NewController = new NewsController();
