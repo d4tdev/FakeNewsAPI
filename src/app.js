@@ -10,8 +10,8 @@ app.use(
    })
 );
 
-const router = require('./routes');
+const routes = require('./routes');
 
-router(app);
+routes(app);
 
 module.exports = app;
