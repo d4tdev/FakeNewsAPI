@@ -179,9 +179,9 @@ class NewsController {
          const transformedData = transformData(data);
 
          const { title } = req.query;
-         console.log(title);
+         console.log(title)
          if (!title) return res.status(400).json({ error: 'Missing required fields' });
-         const item = transformedData.find(item => item.title == title);
+         const item = transformedData.find(item => item.title.includes(title));
          if (!item) return res.status(404).json({ error: 'Not Found' });
          return res.status(200).json(item);
       });
