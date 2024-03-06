@@ -1,3 +1,6 @@
+const { v4: uuidv4 } = require('uuid');
+
+
 module.exports = {
    transformData: data =>
       data.posts.post.map(post => {
@@ -10,4 +13,17 @@ module.exports = {
             image: post.image[0],
          };
       }),
+   transFormUser: data => data.users.user.map(user => {
+      return {
+         id: user.id[0],
+         username: user.username[0],
+         password: user.password[0],
+         name: user.name[0],
+         address: user.address[0],
+         email: user.email[0],
+      };
+   }),
+   createIdUser: () =>  {
+      return uuidv4().substring(0, 4);
+   }
 };

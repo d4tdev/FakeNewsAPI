@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<users>
+  <user>
+    <id>js01</id>
+    <username>Chu Hai</username>
+    <password>1234</password>
+    <name>Chu Hai</name>
+    <address>TN</address>
+    <email>20</email>
+  </user>
+  <user>
+    <id>59b9</id>
+    <name>noname</name>
+    <username>haidz</username>
+    <password>123</password>
+    <address>Tn</address>
+    <email>haidzvodoi@gmail.com</email>
+  </user>
+  <user>
+    <id>1708</id>
+    <name>noname</name>
+    <username>haidz</username>
+    <password>123</password>
+    <address>Tn</address>
+    <email>haidzvodoi@gmail.com</email>
+  </user>
+</users>
