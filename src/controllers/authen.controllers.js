@@ -43,6 +43,9 @@ function readXML(callback) {
             return;
          }
 
+        
+        
+
          xml2js.parseString(data, (err, result) => {
             if (err) {
                res.status(500).json({ error: 'Internal Server Error', err });
@@ -53,11 +56,14 @@ function readXML(callback) {
                result.users = { user: [] };
             }
 
-            // const isExist = result.users.user.some(user => user.id[0] == id);
-            // if (isExist) {
-            //    res.status(400).json({ error: 'ID is exist' });
-            //    return;
-            // }
+           const users = result.users.user;
+
+           const isExist = users.some(users => users.username[0] === username);
+           if(isExist) {
+               return res.status(400).json({ err: "User already exists" });
+           }
+
+            
 
             const newItem = {
                id: createIdUser(),
@@ -86,11 +92,12 @@ function readXML(callback) {
          readXML((err, data) => {
             if (err) return res.status(500).json({ err: 'Internal Server Error' + err });
 
-            const transFormUser = transFormUser(data);
-
+            const transFormUsers = transFormUser(data);
+            console.log(transFormUsers);
             const { username, password } = req.body;
+            console.log(username);
             if (!username) return res.status(400).json({ error: 'Missing required fields' });
-            const item = transFormUser.find(item => item.username.includes(username));
+            const item = transFormUsers.find(item => item.username.includes(username));
             if (!item) return res.status(404).json({ error: 'User Not Found' });
             const checkPassword = item.password.includes(password);
             if (!checkPassword) return res.status(404).json({ error: 'Password Required' });
@@ -110,11 +117,11 @@ function readXML(callback) {
          readXML((err, data) => {
             if (err) return res.status(500).json({ err: 'Internal Server Error' + err });
    
-            const transFormUser = transFormUser(data);
+            const transFormUsers = transFormUser(data);
    
             const { name } = req.query;
             if (!name) return res.status(400).json({ error: 'Missing required fields' });
-            const item = transFormUser.find(item => item.name.includes(name));
+            const item = transFormUsers.find(item => item.name.includes(name));
             if (!item) return res.status(404).json({ error: 'User Not Found' });  
             return res.status(200).json(item);
             });
